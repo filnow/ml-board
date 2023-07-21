@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReactFlow, {
   Node,
   addEdge,
@@ -17,10 +17,12 @@ import { Marker, Popup, Tooltip } from "react-leaflet";
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 let newNode: Node;
+let openValue: boolean = false;
 
 const CreateConv: React.FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [open, setOpen] = useState(false);
   //const [rfInstance, setRfInstance] = useState(null);
   
   const getNodeId = () => `randomnode_${+new Date()}`;
@@ -73,12 +75,18 @@ const CreateConv: React.FC = () => {
 
   const onELementClick = useCallback(
     (event: React.MouseEvent, element: Node) => {
-      console.log(element.data.label);
-      return (
-        <ConvMenu onAdd={onAdd} />
-      );
+      if (element.data.label == 'Conv2d') {
+        setOpen(true);
+      }
+      else {
+        setOpen(false);
+      }
     }
   , []);
+
+  const onCloseMenu = useCallback(() => {
+    setOpen(false); // Set openValue to false when the IconButton in ConvMenu is clicked
+  }, []);
 
   const onMouse = useCallback(
     (event: React.MouseEvent, element: Node) => {
@@ -89,7 +97,7 @@ const CreateConv: React.FC = () => {
   return (
     <div style={{ height: '98vh', width: '98vw', display: 'flex'}}>
       <SwipeableTemporaryDrawer onAdd={onAdd} />
-      <ConvMenu onAdd={onAdd} />
+      <ConvMenu onAdd={onAdd} openValue={open} onClose={onCloseMenu}/>
       <ReactFlow
         nodes={nodes}
         edges={edges}

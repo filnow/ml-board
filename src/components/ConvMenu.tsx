@@ -8,52 +8,44 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Drawer from '@mui/material/Drawer';
+import { IconButton, TextField } from '@mui/material';
+import { DeleteRounded } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
 
-type OnAddFunction = (key: string) => void;
 
 interface ConvMenuProps {
-  onAdd: OnAddFunction;
+    onAdd: (text: string) => void;
+    openValue: boolean;
+    onClose: () => void;
 }
 
-const ConvMenu: React.FC<ConvMenuProps> = ({ onAdd }) => {
- 
-  return (
-    <div style={{width : 250}}>
-        <Drawer anchor="right" open={true} variant="persistent">
-            <Box
-            sx={{ width: 250, top: 0, left: 0, height: '98vh'}}
-            role="presentation"
-            >
-            <List>
-                {['Conv', 'Linear', 'Activation', 'Pool'].map((text, index) => (
-                <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={() => onAdd(text)}>
-                    <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                    </ListItemButton>
-                </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['Input', 'Output'].map((text, index) => (
-                <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={() => onAdd(text)}>
-                    <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                    </ListItemButton>
-                </ListItem>
-                ))}
-            </List>
-            <Divider />
-            </Box>
-        </Drawer>
-    </div>
-  );
-}
+const ConvMenu: React.FC<ConvMenuProps> = ({ onAdd, openValue, onClose}) => {
+
+    return (
+        <div>
+            <Drawer anchor="right" open={openValue} variant="persistent">
+                <Box
+                sx={{ width: 350, top: 0, left: 0, height: '98vh'}}
+                role="presentation"
+                >
+                <IconButton aria-label="Example" style={{left: '15vw'}} onClick={onClose}>
+                    <DeleteRounded />
+                </IconButton>    
+                <List>
+                    {['in_channels', 'out_channels', 'kernel_size', 'stride', 'padding', 'bias'].map((text, index) => (
+                    <ListItem key={text} disablePadding>
+                        <TextField id={text} label="Outlined" variant="outlined" />
+                        <ListItemButton onClick={() => onAdd(text)}>
+                        <ListItemText primary={text} />
+                        </ListItemButton>
+                    </ListItem>
+                    ))}
+                </List>
+                <Divider />
+                </Box>
+            </Drawer>
+        </div>
+    );
+};
 
 export default ConvMenu;
