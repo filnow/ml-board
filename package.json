@@ -17,9 +17,11 @@
     "@tensorflow/tfjs": "^4.8.0",
     "bootstrap": "^3.4.1",
     "dragselect": "^2.7.4",
+    "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
+    "react-leaflet": "^4.2.1",
     "react-xarrows": "^2.0.2",
     "reactflow": "^11.7.4"
   },

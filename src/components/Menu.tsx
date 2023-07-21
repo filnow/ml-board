@@ -7,8 +7,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import Drawer from '@mui/material/Drawer';
 
-type OnAddFunction = () => void;
+type OnAddFunction = (key: string) => void;
 
 interface SwipeableTemporaryDrawerProps {
   onAdd: OnAddFunction;
@@ -17,76 +18,40 @@ interface SwipeableTemporaryDrawerProps {
 const SwipeableTemporaryDrawer: React.FC<SwipeableTemporaryDrawerProps> = ({ onAdd }) => {
  
   return (
-    <div style={{width : 250}}>
-      <Box
-      sx={{ width: 250, top: 0, left: 0, height: '98vh'}}
-      role="presentation"
-    >
-      <List>
-        {['Conv', 'Linear', 'Activation', 'Pool'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={onAdd}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['Input', 'Output'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+    <div>
+      <Drawer anchor="left" open={true} variant="persistent">
+        <Box
+        sx={{ width: 250, top: 0, left: 0, height: '98vh'}}
+        role="presentation"
+      >
+        <List>
+          {['Conv', 'Linear', 'Activation', 'Pool'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton onClick={() => onAdd(text)}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['Input', 'Output'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton onClick={() => onAdd(text)}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        </Box>
+      </Drawer>
     </div>
   );
 }
