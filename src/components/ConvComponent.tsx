@@ -11,19 +11,19 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import SwipeableTemporaryDrawer from './Menu';
 import ConvMenu from './ConvMenu';
-import { Marker, Popup, Tooltip } from "react-leaflet";
+import InputMenu from './InputMenu';
 
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 let newNode: Node;
-let openValue: boolean = false;
 
 const CreateConv: React.FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [open, setOpen] = useState(false);
-  //const [rfInstance, setRfInstance] = useState(null);
+  const [openConvMenu, setOpenConv] = useState(false);
+  const [openInputMenu, setOpenInput] = useState(false);
+
   
   const getNodeId = () => `randomnode_${+new Date()}`;
 
@@ -45,25 +45,15 @@ const CreateConv: React.FC = () => {
         };
         break;
       case 'Input':
-        newNode = {
-          id: getNodeId(),
-          data: { label: 'Input', type: 'input' },
-          position: {
-            x: window.innerWidth / 2,
-            y: window.innerHeight / 2,
-          },
-          type: 'input',
-        };
-        break;
       case 'Output':
         newNode = {
           id: getNodeId(),
-          data: { label: 'Output', type: 'output' },
+          data: { label: key, type: key.toLowerCase() },
           position: {
             x: window.innerWidth / 2,
             y: window.innerHeight / 2,
           },
-          type: 'output',
+          type: key.toLowerCase(),
         };
         break;
       default:
@@ -75,17 +65,20 @@ const CreateConv: React.FC = () => {
 
   const onELementClick = useCallback(
     (event: React.MouseEvent, element: Node) => {
-      if (element.data.label == 'Conv2d') {
-        setOpen(true);
+      if (element.data.label == 'Conv2d' ) {
+        setOpenConv(true);
+        setOpenInput(false);
       }
-      else {
-        setOpen(false);
+      else if (element.data.label == 'Input') {
+        setOpenInput(true);
+        setOpenConv(false);
       }
     }
   , []);
 
   const onCloseMenu = useCallback(() => {
-    setOpen(false); // Set openValue to false when the IconButton in ConvMenu is clicked
+    setOpenConv(false);
+    setOpenInput(false); // Set openValue to false when the IconButton in ConvMenu is clicked
   }, []);
 
   const onMouse = useCallback(
@@ -97,7 +90,8 @@ const CreateConv: React.FC = () => {
   return (
     <div style={{ height: '98vh', width: '98vw', display: 'flex'}}>
       <SwipeableTemporaryDrawer onAdd={onAdd} />
-      <ConvMenu onAdd={onAdd} openValue={open} onClose={onCloseMenu}/>
+      <ConvMenu onAdd={onAdd} openValue={openConvMenu} onClose={onCloseMenu}/> 
+      <InputMenu onAdd={onAdd} openValue={openInputMenu} onClose={onCloseMenu}/>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -106,7 +100,6 @@ const CreateConv: React.FC = () => {
         onConnect={onConnect}
         onNodeClick={onELementClick}
         onNodeMouseEnter={onMouse}
-        //onInit={setRfInstance}
       >
         <Background />
       </ReactFlow>
