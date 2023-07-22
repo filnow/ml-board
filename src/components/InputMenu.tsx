@@ -1,11 +1,12 @@
-import List from '@mui/material/List';
-import { Box, Button, ImageList, ImageListItem, Stack } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Drawer from '@mui/material/Drawer';
-import { IconButton, TextField } from '@mui/material';
+import {IconButton, 
+        Divider, 
+        ListItem, 
+        Drawer, 
+        Box, 
+        Button, 
+        ImageList, 
+        ImageListItem, 
+        List} from '@mui/material';
 import { DeleteRounded } from '@mui/icons-material';
 import { useState } from 'react';
 
@@ -17,7 +18,7 @@ interface InputMenuProps {
 }
 
 const InputMenu: React.FC<InputMenuProps> = ({ onAdd, openValue, onClose}) => {
-    const [selectedImage, setSelectedImage] = useState<Blob | MediaSource>(new Blob());
+    const [selectedImage, setSelectedImage] = useState<Blob | MediaSource | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target?.files;
@@ -45,6 +46,7 @@ const InputMenu: React.FC<InputMenuProps> = ({ onAdd, openValue, onClose}) => {
                     </ListItem>
                 </List>
                 <Divider />
+                {selectedImage && (
                 <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
                     <ImageListItem style={{left: '5vw'}}>
                     <img
@@ -53,6 +55,7 @@ const InputMenu: React.FC<InputMenuProps> = ({ onAdd, openValue, onClose}) => {
                     />
                     </ImageListItem>
                 </ImageList>
+                )}
                 </Box>
             </Drawer>
         </div>
