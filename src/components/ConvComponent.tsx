@@ -1,4 +1,7 @@
 import React, { useCallback, useState } from 'react';
+import MainMenu from './Menu';
+import ConvMenu from './ConvMenu';
+import InputMenu from './InputMenu';
 import ReactFlow, {
   Node,
   addEdge,
@@ -8,10 +11,8 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
 } from "reactflow";
+
 import "reactflow/dist/style.css";
-import SwipeableTemporaryDrawer from './Menu';
-import ConvMenu from './ConvMenu';
-import InputMenu from './InputMenu';
 
 
 const initialNodes: Node[] = [];
@@ -78,10 +79,10 @@ const CreateConv: React.FC = () => {
 
   const onCloseMenu = useCallback(() => {
     setOpenConv(false);
-    setOpenInput(false); // Set openValue to false when the IconButton in ConvMenu is clicked
+    setOpenInput(false); 
   }, []);
 
-  const onMouse = useCallback(
+  const onMouseHover = useCallback(
     (event: React.MouseEvent, element: Node) => {
       console.log(event);
     }
@@ -89,9 +90,9 @@ const CreateConv: React.FC = () => {
 
   return (
     <div style={{ height: '98vh', width: '98vw', display: 'flex'}}>
-      <SwipeableTemporaryDrawer onAdd={onAdd} />
-      <ConvMenu onAdd={onAdd} openValue={openConvMenu} onClose={onCloseMenu}/> 
-      <InputMenu onAdd={onAdd} openValue={openInputMenu} onClose={onCloseMenu}/>
+      <MainMenu onAdd={onAdd} />
+      <ConvMenu openValue={openConvMenu} onClose={onCloseMenu}/> 
+      <InputMenu openValue={openInputMenu} onClose={onCloseMenu}/>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -99,7 +100,7 @@ const CreateConv: React.FC = () => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeClick={onELementClick}
-        onNodeMouseEnter={onMouse}
+        onNodeMouseEnter={onMouseHover}
       >
         <Background />
       </ReactFlow>

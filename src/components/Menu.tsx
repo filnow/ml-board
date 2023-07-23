@@ -11,11 +11,11 @@ import Drawer from '@mui/material/Drawer';
 
 type OnAddFunction = (key: string) => void;
 
-interface SwipeableTemporaryDrawerProps {
+interface MainMenuProps {
   onAdd: OnAddFunction;
 }
 
-const SwipeableTemporaryDrawer: React.FC<SwipeableTemporaryDrawerProps> = ({ onAdd }) => {
+const MainMenu: React.FC<MainMenuProps> = ({ onAdd }) => {
  
   return (
     <div>
@@ -56,4 +56,4 @@ const SwipeableTemporaryDrawer: React.FC<SwipeableTemporaryDrawerProps> = ({ onA
   );
 }
 
-export default SwipeableTemporaryDrawer;
+export default MainMenu;

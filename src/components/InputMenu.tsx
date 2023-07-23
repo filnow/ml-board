@@ -1,3 +1,5 @@
+import { DeleteRounded } from '@mui/icons-material';
+import { useState } from 'react';
 import {IconButton, 
         Divider, 
         ListItem, 
@@ -7,17 +9,14 @@ import {IconButton,
         ImageList, 
         ImageListItem, 
         List} from '@mui/material';
-import { DeleteRounded } from '@mui/icons-material';
-import { useState } from 'react';
 
 
 interface InputMenuProps {
-    onAdd: (text: string) => void;
     openValue: boolean;
     onClose: () => void;
 }
 
-const InputMenu: React.FC<InputMenuProps> = ({ onAdd, openValue, onClose}) => {
+const InputMenu: React.FC<InputMenuProps> = ({ openValue, onClose}) => {
     const [selectedImage, setSelectedImage] = useState<Blob | MediaSource | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
