@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import MainMenu from './Menu';
 import ConvMenu from './ConvMenu';
 import InputMenu from './InputMenu';
+import OutputMenu from './OutputMenu';
 import ReactFlow, {
   Node,
   addEdge,
@@ -22,10 +23,10 @@ let newNode: Node;
 const CreateConv: React.FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [openConvMenu, setOpenConv] = useState(false);
   const [openInputMenu, setOpenInput] = useState(false);
+  const [openOutputMenu, setOpenOutput] = useState(false);
+  const [convMenuStates, setConvMenuStates] = useState<{ [key: string]: boolean }>({});
 
-  
   const getNodeId = () => `randomnode_${+new Date()}`;
 
   const onConnect = useCallback(
@@ -67,19 +68,27 @@ const CreateConv: React.FC = () => {
   const onELementClick = useCallback(
     (event: React.MouseEvent, element: Node) => {
       if (element.data.label == 'Conv2d' ) {
-        setOpenConv(true);
+        setConvMenuStates((prevStates) => ({ ...prevStates, [element.id]: true }));
         setOpenInput(false);
+        setOpenOutput(false);
       }
       else if (element.data.label == 'Input') {
         setOpenInput(true);
-        setOpenConv(false);
+        setOpenOutput(false);
+        setConvMenuStates((prevStates) => ({ ...prevStates, [element.id]: false }));
+      }
+      else if (element.data.label == 'Output') {
+        setOpenOutput(true);
+        setOpenInput(false);
+        setConvMenuStates((prevStates) => ({ ...prevStates, [element.id]: false }));
       }
     }
   , []);
 
   const onCloseMenu = useCallback(() => {
-    setOpenConv(false);
-    setOpenInput(false); 
+    setOpenInput(false);
+    setOpenOutput(false);
+    setConvMenuStates({}); 
   }, []);
 
   const onMouseHover = useCallback(
@@ -91,8 +100,11 @@ const CreateConv: React.FC = () => {
   return (
     <div style={{ height: '98vh', width: '98vw', display: 'flex'}}>
       <MainMenu onAdd={onAdd} />
-      <ConvMenu openValue={openConvMenu} onClose={onCloseMenu}/> 
+      {nodes.map((node) => (
+        <ConvMenu key={node.id} openValue={Boolean(convMenuStates[node.id])} onClose={onCloseMenu}/>
+      ))}
       <InputMenu openValue={openInputMenu} onClose={onCloseMenu}/>
+      <OutputMenu openValue={openOutputMenu} onClose={onCloseMenu}/>
       <ReactFlow
         nodes={nodes}
         edges={edges}
