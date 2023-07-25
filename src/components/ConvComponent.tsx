@@ -89,6 +89,7 @@ const CreateConv: React.FC = () => {
     setOpenInput(false);
     setOpenOutput(false);
     setConvMenuStates({}); 
+
   }, []);
 
   const onMouseHover = useCallback(

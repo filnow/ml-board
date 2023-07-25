@@ -45,7 +45,7 @@ const ConvMenu: React.FC<ConvMenuProps> = ({openValue, onClose}) => {
     const [paramState, setParamState] = useState<ParamState>(initialParamState);
 
     const onParmChange = () => {
-        // You can access each parameter's value independently here
+        // You can access each parameter's value independently here 
         console.log('in_channels:', paramState[ConvParameter.IN_CHANNELS]);
         console.log('out_channels:', paramState[ConvParameter.OUT_CHANNELS]);
         console.log('kernel_size:', paramState[ConvParameter.KERNEL_SIZE]);
